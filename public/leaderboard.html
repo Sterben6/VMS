@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Volunteer Leaderboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: 420px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .hours {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Volunteer Leaderboard</h1>
+
+<div class="container">
+
+    <div class="card">
+        <h2>User Leaderboard</h2>
+        <ol id="userLeaderboard"></ol>
+    </div>
+
+    <div class="card">
+        <h2>Organization Leaderboard</h2>
+        <ol id="orgLeaderboard"></ol>
+    </div>
+
+</div>
+
+<script>
+    async function loadLeaderboard(url, elementId, nameKey) {
+        const res = await fetch(url);
+        const data = await res.json();
+        const list = document.getElementById(elementId);
+
+        list.innerHTML = '';
+
+        data.forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+          <span>${item[nameKey]}</span>
+          <span class="hours">${Number(item.total_hours).toFixed(2)} hrs</span>
+        `;
+            list.appendChild(li);
+        });
+    }
+
+    loadLeaderboard('/api/leaderboard/users', 'userLeaderboard', 'name');
+    loadLeaderboard('/api/leaderboard/orgs', 'orgLeaderboard', 'org_name');
+</script>
+
+</body>
+</html>
+``

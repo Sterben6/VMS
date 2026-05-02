@@ -1,0 +1,12 @@
+# Package Management & Libraries
+node_modules
+package-lock.json
+
+# Configuration Files
+config.json
+.vscode
+yarn-error.log
+.idea
+
+# Dist Files
+dist
